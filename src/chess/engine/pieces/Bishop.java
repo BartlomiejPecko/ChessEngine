@@ -4,7 +4,7 @@ import chess.engine.Alliance;
 import chess.engine.board.Board;
 import chess.engine.board.Moves;
 
-import java.util.List;
+import java.util.Collection;
 
 public class Bishop extends Piece{
     Bishop(final int piecePosition, final Alliance pieceAlliance) {
@@ -12,7 +12,7 @@ public class Bishop extends Piece{
     }
 
     @Override
-    public List<Moves> calcLegalMoves(Board board) {
+    public Collection<Moves> calcLegalMoves(Board board) {
         return null;
     }
 }
