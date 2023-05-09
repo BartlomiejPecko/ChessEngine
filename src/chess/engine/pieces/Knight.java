@@ -36,13 +36,13 @@ public class Knight extends Piece{
             final Tile destinationTile = board.getTile(destinationCoordinate);
 
             if(!destinationTile.Occupied()) {
-                legalMoves.add(new Moves());
+                legalMoves.add(new Moves.PieceMove(board, this, destinationCoordinate));
             } else {
                 final Piece pieceAtDestination = destinationTile.getPiece();
                 final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
                 if(this.pieceAlliance != pieceAlliance) {
-                    legalMoves.add(new Moves());
+                    legalMoves.add(new Moves.AttackMove(board, this, destinationCoordinate, pieceAtDestination));
                 }
             }
             }
