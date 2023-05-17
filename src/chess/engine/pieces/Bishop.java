@@ -19,7 +19,7 @@ public class Bishop extends Piece{
     }
 
     @Override
-    public Collection<Moves> calcLegalMoves(Board board) {
+    public Collection<Moves> calcLegalMoves(final Board board) {
         final List<Moves> legalMoves = new ArrayList<>();
 
         for(final int coordinateOffset: CANDIDATE_VECTOR_COORDINATES){

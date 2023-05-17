@@ -13,7 +13,9 @@ import java.util.List;
 
 public class Knight extends Piece{
 
+    // Array of possible moves for knight
     private final static int[] CANDIDATE_MOVES = {-17, -15, -10, -6, 6, 10, 15, 17};
+
     Knight(final int piecePosition, final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
@@ -38,10 +40,12 @@ public class Knight extends Piece{
             if(!destinationTile.Occupied()) {
                 legalMoves.add(new Moves.PieceMove(board, this, destinationCoordinate));
             } else {
+                //Checks if the occupying piece is opponent's piece
                 final Piece pieceAtDestination = destinationTile.getPiece();
                 final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
                 if(this.pieceAlliance != pieceAlliance) {
+                    // Adds attack move to legal moves list
                     legalMoves.add(new Moves.AttackMove(board, this, destinationCoordinate, pieceAtDestination));
                 }
             }
