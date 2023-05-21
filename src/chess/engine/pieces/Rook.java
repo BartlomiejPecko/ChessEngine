@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Rook extends Piece{
 
-    private final static int[] CANDIDATE_VECTOR_COORDINATES = {-8, -1, 1, 8};
+    private final static int[] CANDIDATE_MOVES = {-8, -1, 1, 8};
     Rook(final int piecePosition,final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
@@ -22,7 +22,7 @@ public class Rook extends Piece{
     public Collection<Moves> calcLegalMoves(final Board board) {
         final List<Moves> legalMoves = new ArrayList<>();
 
-        for(final int coordinateOffset: CANDIDATE_VECTOR_COORDINATES){
+        for(final int coordinateOffset: CANDIDATE_MOVES){
             int destinationCoordinate = this.piecePosition;
             while(BoardUtils.ValidCoordinate(destinationCoordinate)) {
 

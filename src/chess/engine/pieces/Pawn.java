@@ -2,17 +2,41 @@ package chess.engine.pieces;
 
 import chess.engine.Alliance;
 import chess.engine.board.Board;
+import chess.engine.board.BoardUtils;
 import chess.engine.board.Moves;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class Pawn extends Piece{
+
+    private final static int[] CANDIDATE_MOVES = {8, 16};
     Pawn(final int piecePosition, final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
 
     @Override
     public Collection<Moves> calcLegalMoves(Board board) {
-        return null;
+        final List<Moves> legalMoves = new ArrayList<>();
+        for(final int candidateOffset : CANDIDATE_MOVES) {
+            int destinationCoordinate = this.piecePosition + (this.getPieceAlliance().getDirection() * candidateOffset);
+
+            if(!BoardUtils.ValidCoordinate(destinationCoordinate)) {
+                continue;
+            }
+            if(candidateOffset == 8 && !board.getTile(destinationCoordinate).Occupied()) {
+                legalMoves.add(new Moves.PieceMove(board, this, destinationCoordinate));
+            } else if (candidateOffset == 16 && this.isFirstPawnMove() &&
+                    (BoardUtils.SECOND_ROW[this.piecePosition] && this.getPieceAlliance().isBlack()) ||
+                    (BoardUtils.SEVENTH_ROW[this.piecePosition] && this.getPieceAlliance().isWhite())) {
+                final int behindDestinationCoordinate = this.piecePosition + (this.pieceAlliance.getDirection() * 8);
+                if(!board.getTile(behindDestinationCoordinate).Occupied() &&
+                        !board.getTile(destinationCoordinate).Occupied()) {
+                    
+                }
+            }
+        }
+        return legalMoves;
     }
 }

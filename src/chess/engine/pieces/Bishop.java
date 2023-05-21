@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Bishop extends Piece{
 
-    private final static int[] CANDIDATE_VECTOR_COORDINATES = {-9, -7, 7, 9};
+    private final static int[] CANDIDATE_MOVES = {-9, -7, 7, 9};
     Bishop(final int piecePosition, final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
@@ -22,7 +22,7 @@ public class Bishop extends Piece{
     public Collection<Moves> calcLegalMoves(final Board board) {
         final List<Moves> legalMoves = new ArrayList<>();
 
-        for(final int coordinateOffset: CANDIDATE_VECTOR_COORDINATES){
+        for(final int coordinateOffset: CANDIDATE_MOVES){
             int destinationCoordinate = this.piecePosition;
             while(BoardUtils.ValidCoordinate(destinationCoordinate)) {
 

@@ -10,14 +10,19 @@ public abstract class Piece {
 
     protected final int piecePosition;
     protected final Alliance pieceAlliance; //black or white pieces
+    protected final boolean isFirstPawnMove;
 
     Piece(final int piecePosition, final Alliance pieceAlliance) {
         this.piecePosition = piecePosition;
         this.pieceAlliance = pieceAlliance;
+        this.isFirstPawnMove = false;
     }
 
     public Alliance getPieceAlliance(){
         return this.pieceAlliance;
+    }
+    public boolean isFirstPawnMove(){
+        return this.isFirstPawnMove;
     }
 
     public abstract Collection<Moves> calcLegalMoves(final Board board);
