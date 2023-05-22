@@ -4,6 +4,7 @@ import chess.engine.Alliance;
 import chess.engine.board.Board;
 import chess.engine.board.BoardUtils;
 import chess.engine.board.Moves;
+import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class Pawn extends Piece{
 
-    private final static int[] CANDIDATE_MOVES = {8, 16};
+    private final static int[] CANDIDATE_MOVES = {8, 16, 7, 9};
     Pawn(final int piecePosition, final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
@@ -33,10 +34,28 @@ public class Pawn extends Piece{
                 final int behindDestinationCoordinate = this.piecePosition + (this.pieceAlliance.getDirection() * 8);
                 if(!board.getTile(behindDestinationCoordinate).Occupied() &&
                         !board.getTile(destinationCoordinate).Occupied()) {
-                    
+                    legalMoves.add(new Moves.PieceMove(board, this, destinationCoordinate));
+                }
+            } else if(candidateOffset == 7 &&
+                    !((BoardUtils.EIGHT_COLUMN[piecePosition] && this.pieceAlliance.isWhite() ||
+                    (BoardUtils.FIRST_COLUMN[this.piecePosition] && this.pieceAlliance.isBlack())))) {
+                if(board.getTile(destinationCoordinate).Occupied()) {
+                    final Piece pieceDestination = board.getTile(destinationCoordinate).getPiece();
+                    if(this.pieceAlliance != pieceDestination.getPieceAlliance()) {
+                        legalMoves.add(new Moves.PieceMove(board, this, destinationCoordinate));
+                    }
+                }
+            } else if (candidateOffset == 9 &&
+                    !((BoardUtils.FIRST_COLUMN[piecePosition] && this.pieceAlliance.isWhite() ||
+                    (BoardUtils.EIGHT_COLUMN[this.piecePosition] && this.pieceAlliance.isBlack())))) {
+                if(board.getTile(destinationCoordinate).Occupied()) {
+                    final Piece pieceDestination = board.getTile(destinationCoordinate).getPiece();
+                    if(this.pieceAlliance != pieceDestination.getPieceAlliance()) {
+                        legalMoves.add(new Moves.PieceMove(board, this, destinationCoordinate));
+                    }
                 }
             }
         }
-        return legalMoves;
+        return ImmutableList.copyOf(legalMoves);
     }
 }
