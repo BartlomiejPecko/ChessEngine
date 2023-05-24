@@ -17,6 +17,9 @@ public abstract class Piece {
         this.pieceAlliance = pieceAlliance;
         this.isFirstPawnMove = false;
     }
+    public int getPiecePosition(){
+        return this.piecePosition;
+    }
 
     public Alliance getPieceAlliance(){
         return this.pieceAlliance;
