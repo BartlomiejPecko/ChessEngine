@@ -4,18 +4,48 @@ import chess.engine.Alliance;
 import chess.engine.pieces.*;
 import com.google.common.collect.ImmutableList;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 public class Board {
 
     private final List<Tile> chessboard;
+    private final Collection<Piece>whitePieces;
+    private final Collection<Piece>blackPieces;
     private Board(Builder builder){
         this.chessboard = createChessboard(builder);
+        this.whitePieces = calculateActivePieces(this.chessboard, Alliance.WHITE);
+        this.blackPieces = calculateActivePieces(this.chessboard, Alliance.BLACK);
+
+        final Collection<Moves> whiteDefaultMoves = calculateLegalMoves(this.whitePieces);
+        final Collection<Moves> blackDefaultMoves = calculateLegalMoves(this.blackPieces);;
+    }
+
+    private Collection<Moves> calculateLegalMoves(final Collection<Piece> pieces) {
+        final List<Moves> legalMoves = new ArrayList<>();
+        for (final Piece piece : pieces) {
+           legalMoves.addAll(piece.calcLegalMoves(this));
+        }
+        return ImmutableList.copyOf(legalMoves);
+    }
+
+    private static Collection<Piece> calculateActivePieces(final List<Tile> chessboard, final Alliance alliance) {
+        final List<Piece> activePieces = new ArrayList<>();
+        for(final Tile tile: chessboard){
+            if(tile.Occupied()){
+                final Piece piece = tile.getPiece();
+                if(piece.getPieceAlliance()== alliance) {
+                    activePieces.add(piece);
+                }
+            }
+        }
+        return ImmutableList.copyOf(activePieces);
     }
 
     public Tile getTile(final int tileCoordinate) {
-        return null;
+        return chessboard.get(tileCoordinate);
     }
     private static List<Tile> createChessboard(final Builder builder){
         final Tile[] tiles = new Tile[BoardUtils.NR_TILES];
