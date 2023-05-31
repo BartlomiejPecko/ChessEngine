@@ -4,10 +4,7 @@ import chess.engine.Alliance;
 import chess.engine.pieces.*;
 import com.google.common.collect.ImmutableList;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Board {
 
@@ -21,6 +18,19 @@ public class Board {
 
         final Collection<Moves> whiteDefaultMoves = calculateLegalMoves(this.whitePieces);
         final Collection<Moves> blackDefaultMoves = calculateLegalMoves(this.blackPieces);;
+    }
+
+    @Override //what board looks like when turned into string
+    public String toString(){
+        final StringBuilder builder = new StringBuilder();
+        for(int i = 0; i < BoardUtils.NR_TILES; i++) {
+            final String tileText = this.chessboard.get(i).toString();
+            builder.append(String.format("%3s", tileText));
+            if((i+1) % BoardUtils.NR_TILES_PER_ROW == 0) {
+                builder.append("\n");
+            }
+        }
+        return builder.toString();
     }
 
     private Collection<Moves> calculateLegalMoves(final Collection<Piece> pieces) {
@@ -104,7 +114,7 @@ public class Board {
         Map<Integer, Piece> boardConfig;
         Alliance nextMoveMaker;
         public Builder(){
-
+            this.boardConfig = new HashMap<>();
         }
         public Builder setPiece(final Piece piece) {
             this.boardConfig.put(piece.getPiecePosition(), piece);
