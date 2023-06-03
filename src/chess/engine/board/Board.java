@@ -2,6 +2,8 @@ package chess.engine.board;
 
 import chess.engine.Alliance;
 import chess.engine.pieces.*;
+import chess.engine.player.BlackPlayer;
+import chess.engine.player.WhitePlayer;
 import com.google.common.collect.ImmutableList;
 
 import java.util.*;
@@ -11,13 +13,20 @@ public class Board {
     private final List<Tile> chessboard;
     private final Collection<Piece>whitePieces;
     private final Collection<Piece>blackPieces;
+
+    private final WhitePlayer whitePlayer;
+    private final BlackPlayer blackPlayer;
+
     private Board(Builder builder){
         this.chessboard = createChessboard(builder);
         this.whitePieces = calculateActivePieces(this.chessboard, Alliance.WHITE);
         this.blackPieces = calculateActivePieces(this.chessboard, Alliance.BLACK);
 
         final Collection<Moves> whiteDefaultMoves = calculateLegalMoves(this.whitePieces);
-        final Collection<Moves> blackDefaultMoves = calculateLegalMoves(this.blackPieces);;
+        final Collection<Moves> blackDefaultMoves = calculateLegalMoves(this.blackPieces);
+
+        this.whitePlayer = new WhitePlayer(this, whiteDefaultMoves, blackDefaultMoves);
+        this.blackPlayer = new BlackPlayer(this, whiteDefaultMoves, blackDefaultMoves);
     }
 
     @Override //what board looks like when turned into string
@@ -31,6 +40,13 @@ public class Board {
             }
         }
         return builder.toString();
+    }
+    public Collection<Piece> getBlackPieces() {
+        return this.blackPieces;
+    }
+
+    public Collection<Piece> getWhitePieces(){
+        return this.whitePieces;
     }
 
     private Collection<Moves> calculateLegalMoves(final Collection<Piece> pieces) {

@@ -15,7 +15,7 @@ public class Bishop extends Piece{
 
     private final static int[] CANDIDATE_MOVES = {-9, -7, 7, 9};
     public Bishop(final Alliance pieceAlliance, final int piecePosition) {
-        super(piecePosition, pieceAlliance);
+        super(PieceType.BISHOP, piecePosition, pieceAlliance);
     }
 
     @Override
