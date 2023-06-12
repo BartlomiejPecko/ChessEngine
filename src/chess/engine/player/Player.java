@@ -1,5 +1,6 @@
 package chess.engine.player;
 
+import chess.engine.Alliance;
 import chess.engine.board.Board;
 import chess.engine.board.Moves;
 import chess.engine.pieces.King;
@@ -29,7 +30,33 @@ public abstract class Player {
         } throw new RuntimeException(" ");
     }
 
+    public boolean isMoveLegal(final Moves move){
+        return this.legalMoves.contains(move);
+    }
+
+    public boolean isCheck(){
+        return false;
+    }
+
+    public boolean isCheckmate(){
+        return false;
+    }
+
+    public boolean isStalemate(){
+        return false;
+    }
+
+    public boolean isCastled(){
+        return false;
+    }
+
+    public MoveTransition makeMove (final Moves move){
+        return null;
+    }
+
     public abstract Collection<Piece> getActivePieces();
+    public abstract Alliance getAlliance();
+    public abstract Player getOpponent();
 
 
 }
