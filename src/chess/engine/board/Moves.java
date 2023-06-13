@@ -14,6 +14,9 @@ public abstract class Moves {
         this.movedPiece = movedPiece;
         this.pieceDestination = pieceDestination;
     }
+    public int getPieceDestination(){
+        return this.pieceDestination;
+    }
     public static final class PieceMove extends Moves{
 
         public PieceMove(final Board board, final Piece movedPiece, final int pieceDestination) {
