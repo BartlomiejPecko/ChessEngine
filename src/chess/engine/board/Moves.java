@@ -17,10 +17,18 @@ public abstract class Moves {
     public int getPieceDestination(){
         return this.pieceDestination;
     }
+
+    public abstract Board execute();
+
     public static final class PieceMove extends Moves{
 
         public PieceMove(final Board board, final Piece movedPiece, final int pieceDestination) {
             super(board, movedPiece, pieceDestination);
+        }
+
+        @Override
+        public Board execute() {
+            return null;
         }
     }
     public static final class AttackMove extends Moves{
@@ -31,6 +39,11 @@ public abstract class Moves {
             super(board, movedPiece, pieceDestination);
 
         this.attackedPiece = attackedPiece;
+        }
+
+        @Override
+        public Board execute() {
+            return null;
         }
     }
 }

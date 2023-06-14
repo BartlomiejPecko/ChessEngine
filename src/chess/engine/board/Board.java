@@ -17,6 +17,7 @@ public class Board {
 
     private final WhitePlayer whitePlayer;
     private final BlackPlayer blackPlayer;
+    private final Player currentPlayer;
 
     private Board(Builder builder){
         this.chessboard = createChessboard(builder);
@@ -28,6 +29,7 @@ public class Board {
 
         this.whitePlayer = new WhitePlayer(this, whiteDefaultMoves, blackDefaultMoves);
         this.blackPlayer = new BlackPlayer(this, whiteDefaultMoves, blackDefaultMoves);
+        this.currentPlayer = null;
     }
 
     @Override //what board looks like when turned into string
@@ -49,6 +51,10 @@ public class Board {
 
     public Player blackPlayer(){
         return this.blackPlayer;
+    }
+
+    public Player currentPlayer(){
+        return this.currentPlayer;
     }
 
     public Collection<Piece> getBlackPieces() {
@@ -135,6 +141,8 @@ public class Board {
         return builder.build();
 
     }
+
+
 
     public static class Builder{
         Map<Integer, Piece> boardConfig;
