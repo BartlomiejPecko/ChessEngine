@@ -50,7 +50,7 @@ public abstract class Player {
             if(piece.getPieceType().isKing()) {
                 return (King) piece;
             }
-        } throw new RuntimeException(" ");
+        } throw new RuntimeException(" no king ");
     }
 
     public boolean isMoveLegal(final Moves move){

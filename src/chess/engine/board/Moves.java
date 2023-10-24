@@ -10,9 +10,9 @@ public abstract class Moves {
     private Moves(final Board board,
          final Piece movedPiece,
          final int pieceDestination){
-        this.board = board;
-        this.movedPiece = movedPiece;
-        this.pieceDestination = pieceDestination;
+             this.board = board;
+             this.movedPiece = movedPiece;
+             this.pieceDestination = pieceDestination;
     }
     public int getPieceDestination(){
         return this.pieceDestination;
@@ -28,7 +28,19 @@ public abstract class Moves {
 
         @Override
         public Board execute() {
-            return null;
+            final Board.Builder builder = new Board.Builder();
+            for(final Piece piece : this.board.currentPlayer().getActivePieces()){
+                if(!this.movedPiece.equals(piece)){
+                    builder.setPiece(piece);
+                }
+
+            } for(final Piece piece : this.board.currentPlayer().getOpponent().getActivePieces()){
+                builder.setPiece(piece);
+            }
+            builder.setPiece(null);
+            builder.setMoveMaker(this.board.currentPlayer().getOpponent().getAlliance());
+            return builder.build();
+
         }
     }
     public static final class AttackMove extends Moves{
