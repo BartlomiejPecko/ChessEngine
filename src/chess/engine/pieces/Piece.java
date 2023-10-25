@@ -36,6 +36,7 @@ public abstract class Piece {
     }
 
     public abstract Collection<Moves> calcLegalMoves(final Board board);
+    public abstract Piece movePiece(Moves move);
 
     public enum PieceType{
 

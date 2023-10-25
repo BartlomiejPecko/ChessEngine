@@ -55,6 +55,10 @@ public class Queen extends Piece{
 
         return ImmutableList.copyOf(legalMoves);
     }
+    @Override
+    public Queen movePiece(final Moves move) {
+        return new Queen(move.getMovedPiece().getPieceAlliance(), move.getPieceDestination()); //creates new queen onto moved location of prev one
+    }
 
     @Override
     public String toString(){

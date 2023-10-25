@@ -56,6 +56,10 @@ public class Rook extends Piece{
         return ImmutableList.copyOf(legalMoves);
     }
     @Override
+    public Rook movePiece(final Moves move) {
+        return new Rook(move.getMovedPiece().getPieceAlliance(), move.getPieceDestination()); //creates new rook onto moved location of prev one
+    }
+    @Override
     public String toString(){
         return PieceType.ROOK.toString();
     }

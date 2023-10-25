@@ -52,6 +52,10 @@ public class King extends Piece{
 
         return ImmutableList.copyOf(legalMoves);
     }
+    @Override
+    public King movePiece(final Moves move) {
+        return new King(move.getMovedPiece().getPieceAlliance(), move.getPieceDestination()); //creates new king onto moved location of prev one
+    }
 
     @Override
     public String toString(){

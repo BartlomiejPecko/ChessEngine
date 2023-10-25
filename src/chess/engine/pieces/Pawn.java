@@ -58,6 +58,11 @@ public class Pawn extends Piece{
         }
         return ImmutableList.copyOf(legalMoves);
     }
+
+    @Override
+    public Pawn movePiece(final Moves move) {
+        return new Pawn(move.getMovedPiece().getPieceAlliance(), move.getPieceDestination()); //creates new pawn onto moved location of prev one
+    }
     @Override
     public String toString(){
         return PieceType.PAWN.toString();
