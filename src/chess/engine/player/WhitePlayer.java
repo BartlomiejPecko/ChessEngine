@@ -3,9 +3,13 @@ package chess.engine.player;
 import chess.engine.Alliance;
 import chess.engine.board.Board;
 import chess.engine.board.Moves;
+import chess.engine.board.Tile;
 import chess.engine.pieces.Piece;
+import com.google.common.collect.ImmutableList;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class WhitePlayer extends Player{
     public WhitePlayer(final Board board,
@@ -27,5 +31,39 @@ public class WhitePlayer extends Player{
     @Override
     public Player getOpponent() {
         return this.board.blackPlayer();
+    }
+
+    @Override
+    protected Collection<Moves> calculateKingCastles(Collection<Moves> playerLegal, Collection<Moves> opponentLegal) {
+        final List<Moves> kingCastles = new ArrayList<>();
+        if(this.playerKing.isFirstPawnMove() && !this.isCheck()){
+            if(!this.board.getTile(61).Occupied() && !this.board.getTile(62).Occupied()){
+                final Tile rookTile = this.board.getTile(63);
+                if(rookTile.Occupied() && rookTile.getPiece().isFirstPawnMove()){
+                    if(Player.calculateAttacksOnTile(61, opponentLegal).isEmpty() &&
+                            Player.calculateAttacksOnTile(62, opponentLegal).isEmpty() &&
+                    rookTile.getPiece().getPieceType().isRook()){
+                        kingCastles.add(null);
+                    }
+
+
+
+
+                }
+            }
+            if(!this.board.getTile(59).Occupied() &&
+                    !this.board.getTile(58).Occupied() &&
+                    !this.board.getTile(57).Occupied()){
+                final Tile rookTile = this.board.getTile(56);
+                if(rookTile.Occupied() && rookTile.getPiece().isFirstPawnMove()){
+                    kingCastles.add(null);
+                }
+            }
+        }
+
+        return ImmutableList.copyOf(kingCastles);
+
+
+
     }
 }

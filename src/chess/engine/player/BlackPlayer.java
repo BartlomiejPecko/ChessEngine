@@ -28,4 +28,9 @@ public class BlackPlayer extends Player{
     public Player getOpponent() {
         return this.board.whitePlayer();
     }
+
+    @Override
+    protected Collection<Moves> calculateKingCastles(Collection<Moves> playerLegal, Collection<Moves> opponentLegal) {
+        return null;
+    }
 }

@@ -35,7 +35,7 @@ public abstract class Player {
         return this.legalMoves;
     }
 
-    private static Collection<Moves> calculateAttacksOnTile(int piecePosition, Collection<Moves> moves) {
+    protected static Collection<Moves> calculateAttacksOnTile(int piecePosition, Collection<Moves> moves) {
         final List<Moves> attackMoves = new ArrayList<>();
         for(final Moves move : moves) {
             if(piecePosition == move.getPieceDestination()) {
@@ -101,6 +101,7 @@ public abstract class Player {
     public abstract Collection<Piece> getActivePieces();
     public abstract Alliance getAlliance();
     public abstract Player getOpponent();
+    protected abstract Collection<Moves> calculateKingCastles(Collection<Moves> playerLegal, Collection<Moves>opponentLegal);
 
 
 }
