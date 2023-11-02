@@ -103,5 +103,4 @@ public abstract class Player {
     public abstract Player getOpponent();
     protected abstract Collection<Moves> calculateKingCastles(Collection<Moves> playerLegal, Collection<Moves>opponentLegal);
 
-
 }

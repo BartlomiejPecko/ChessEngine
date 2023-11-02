@@ -2,6 +2,7 @@ package chess.engine.board;
 
 import chess.engine.pieces.Pawn;
 import chess.engine.pieces.Piece;
+import chess.engine.pieces.Rook;
 
 public abstract class Moves {
     final Board board;
@@ -174,20 +175,65 @@ public abstract class Moves {
 
     static abstract class Castling extends Moves{
 
-        public Castling(final Board board, final Piece movedPiece, final int pieceDestination) {
+        protected final Rook castleRook;
+        protected final int castleRookStart;
+        protected final int castleRookDestination;
+        public Castling(final Board board, final Piece movedPiece, final int pieceDestination, final Rook castleRook,
+                        final int castleRookStart, final int castleRookDestination) {
             super(board, movedPiece, pieceDestination);
+            this.castleRook = castleRook;
+            this.castleRookStart = castleRookStart;
+            this.castleRookDestination = castleRookDestination;
+
         }
+        public Rook getCastleRook(){
+            return this.castleRook;
+        }
+        @Override
+        public boolean isCastling(){
+            return true;
+        }
+        @Override
+        public Board execute(){
+            final Board.Builder builder = new Board.Builder();
+            for(final Piece piece : this.board.currentPlayer().getActivePieces()){
+                if(!this.movedPiece.equals(piece) && !this.castleRook.equals(piece)){
+                    builder.setPiece(piece);
+                }
+            } for(final Piece piece : this.board.currentPlayer().getActivePieces()){
+                builder.setPiece(piece);
+            }
+            builder.setPiece(this.movedPiece.movePiece(this));
+            builder.setPiece(new Rook(this.castleRook.getPieceAlliance(), this.castleRookDestination));
+            builder.setMoveMaker(this.board.currentPlayer().getOpponent().getAlliance());
+            return builder.build();
+        }
+
     }
     public static final class ShortCastle extends Castling{
 
-        public ShortCastle(final Board board, final Piece movedPiece, final int pieceDestination) {
-            super(board, movedPiece, pieceDestination);
+        public ShortCastle(final Board board, final Piece movedPiece, final int pieceDestination,
+                           final Rook castleRook,
+                           final int castleRookStart,
+                           final int castleRookDestination) {
+            super(board, movedPiece, pieceDestination, castleRook, castleRookStart, castleRookDestination);
+        }
+        @Override
+        public String toString(){
+            return "O-O"; //PGN notation
         }
     }
     public static final class LongCastle extends Castling{
 
-        public LongCastle(final Board board, final Piece movedPiece, final int pieceDestination) {
-            super(board, movedPiece, pieceDestination);
+        public LongCastle(final Board board, final Piece movedPiece, final int pieceDestination,
+                          final Rook castleRook,
+                          final int castleRookStart,
+                          final int castleRookDestination) {
+            super(board, movedPiece, pieceDestination, castleRook, castleRookStart, castleRookDestination);
+        }
+        @Override
+        public String toString(){
+            return "O-O-O";
         }
     }
 
