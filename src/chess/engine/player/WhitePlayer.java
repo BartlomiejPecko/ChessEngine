@@ -5,6 +5,7 @@ import chess.engine.board.Board;
 import chess.engine.board.Moves;
 import chess.engine.board.Tile;
 import chess.engine.pieces.Piece;
+import chess.engine.pieces.Rook;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
@@ -17,7 +18,6 @@ public class WhitePlayer extends Player{
                        final Collection<Moves> blackDefaultMoves) {
         super(board, whiteDefaultMoves, blackDefaultMoves );
     }
-
     @Override
     public Collection<Piece> getActivePieces() {
         return this.board.getWhitePieces();
@@ -34,7 +34,7 @@ public class WhitePlayer extends Player{
     }
 
     @Override
-    protected Collection<Moves> calculateKingCastles(Collection<Moves> playerLegal, Collection<Moves> opponentLegal) {
+    protected Collection<Moves> calculateKingCastles(final Collection<Moves> playerLegal, final Collection<Moves> opponentLegal) {
         final List<Moves> kingCastles = new ArrayList<>();
         if(this.playerKing.isFirstPawnMove() && !this.isCheck()){
             if(!this.board.getTile(61).Occupied() && !this.board.getTile(62).Occupied()){
@@ -43,12 +43,11 @@ public class WhitePlayer extends Player{
                     if(Player.calculateAttacksOnTile(61, opponentLegal).isEmpty() &&
                             Player.calculateAttacksOnTile(62, opponentLegal).isEmpty() &&
                     rookTile.getPiece().getPieceType().isRook()){
-                        kingCastles.add(null);
+                        kingCastles.add(new Moves.ShortCastle(this.board,
+                                this.playerKing, 62,
+                                (Rook) rookTile.getPiece(),
+                                rookTile.getTileCoordinate(), 61));
                     }
-
-
-
-
                 }
             }
             if(!this.board.getTile(59).Occupied() &&
@@ -56,14 +55,11 @@ public class WhitePlayer extends Player{
                     !this.board.getTile(57).Occupied()){
                 final Tile rookTile = this.board.getTile(56);
                 if(rookTile.Occupied() && rookTile.getPiece().isFirstPawnMove()){
-                    kingCastles.add(null);
+                    kingCastles.add(new Moves.LongCastle(this.board, this.playerKing, 58,
+                            (Rook) rookTile.getPiece(), rookTile.getTileCoordinate(), 59));
                 }
             }
         }
-
         return ImmutableList.copyOf(kingCastles);
-
-
-
     }
 }

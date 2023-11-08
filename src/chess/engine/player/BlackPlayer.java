@@ -5,6 +5,7 @@ import chess.engine.board.Board;
 import chess.engine.board.Moves;
 import chess.engine.board.Tile;
 import chess.engine.pieces.Piece;
+import chess.engine.pieces.Rook;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class BlackPlayer extends Player{
     }
 
     @Override
-    protected Collection<Moves> calculateKingCastles(Collection<Moves> playerLegal, Collection<Moves> opponentLegal) {
+    protected Collection<Moves> calculateKingCastles(final Collection<Moves> playerLegal, final Collection<Moves> opponentLegal) {
         final List<Moves> kingCastles = new ArrayList<>();
         if(this.playerKing.isFirstPawnMove() && !this.isCheck()){
             if(!this.board.getTile(5).Occupied() && !this.board.getTile(6).Occupied()){
@@ -43,7 +44,8 @@ public class BlackPlayer extends Player{
                     if(Player.calculateAttacksOnTile(5, opponentLegal).isEmpty() &&
                             Player.calculateAttacksOnTile(6, opponentLegal).isEmpty() &&
                             rookTile.getPiece().getPieceType().isRook()){
-                        kingCastles.add(null);
+                        kingCastles.add(new Moves.ShortCastle(this.board, this.playerKing, 6,
+                                (Rook) rookTile.getPiece(), rookTile.getTileCoordinate(), 5));
                     }
                 }
             }
@@ -52,7 +54,8 @@ public class BlackPlayer extends Player{
                     !this.board.getTile(3).Occupied()){
                 final Tile rookTile = this.board.getTile(0);
                 if(rookTile.Occupied() && rookTile.getPiece().isFirstPawnMove()){
-                    kingCastles.add(null);
+                    kingCastles.add(new Moves.LongCastle(this.board, this.playerKing, 2,
+                            (Rook) rookTile.getPiece(), rookTile.getTileCoordinate(), 3));
                 }
             }
         }
