@@ -127,6 +127,33 @@ public abstract class Moves {
         }
     }
 
+    public enum MoveStatus {
+
+        DONE {
+            @Override
+            public boolean isDone() {
+                return true;
+            }
+        },
+        ILLEGAL_MOVE {
+            @Override
+            public boolean isDone() {
+                return false;
+            }
+        },
+        LEAVES_PLAYER_IN_CHECK {
+            @Override
+            public boolean isDone() {
+                return false;
+            }
+        };
+
+        public abstract boolean isDone();
+
+    }
+
+
+
     public static final class PawnMove extends Moves{
 
         public PawnMove(final Board board, final Piece movedPiece, final int pieceDestination) {
